@@ -1,4 +1,6 @@
 {
 		"sub" : true
 	,	"laxcomma" : true
+	,	"proto" : true
+	,	"loopfunc" : true
 }

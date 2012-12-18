@@ -8,7 +8,8 @@ test: jshint
 		-t 8000 \
 		--globals encoding \
 		--bail \
-		test/*.js
+		test/*.js \
+		test/queue/*.js
 
 test-single:
 	@./node_modules/.bin/mocha \
