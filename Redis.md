@@ -15,7 +15,7 @@ Hashes:
       state               -- job state. can be "inactive"
 
 Sorted Sets:
-  q:jobs                     -- Set of all job instance ids. score is job priority
+  q:jobs                     -- Set of all job instance ids regardless of state. score is job priority
   q:jobs:inactive            -- Set of all inactive job instance ids. score is job priority
   q:jobs:active              -- Set of all inactive job instance ids. score is job priority
   q:jobs:<job type>:inactive -- Set of all inactive job instance ids for job type <type>. score is job priority
