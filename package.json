@@ -16,11 +16,11 @@
     , "stylus": "0.27.2"
     , "nib": "0.5.0"
     , "reds": "0.1.4"
+    , "async" : "0.1.22"
   }
   , "devDependencies": {
       "mocha": "1.0.1"
     , "jshint" : "0.9.1"
-    , "async" : "0.1.22"
   }
   , "main": "index"
 }

@@ -17,9 +17,11 @@ Hashes:
 Sorted Sets:
   q:jobs                     -- Set of all job instance ids regardless of state. score is job priority
   q:jobs:inactive            -- Set of all inactive job instance ids. score is job priority
-  q:jobs:active              -- Set of all inactive job instance ids. score is job priority
+  q:jobs:active              -- Set of all active job instance ids. score is job priority
+  q:jobs:complete            -- Set of all completed job instance ids. score is job priority
   q:jobs:<job type>:inactive -- Set of all inactive job instance ids for job type <type>. score is job priority
   q:jobs:<job type>:active   -- Set of all active job instance ids for job type <type>. score is job priority
+  q:jobs:<job type>:complete -- Set of all completed job instance ids for job type <type>. score is job priority
 
 Lists:
   q:<job type>:jobs          -- List of inactive job sequence ids
@@ -62,3 +64,18 @@ What happens when a job processing is started
 [testjob] "zadd" "q:jobs" "42" "1"                         -- Job.state() from .active() Job.Worker.process
 [testjob] "zadd" "q:jobs:active" "42" "1"                  -- Job.state() from .active() Job.Worker.process
 [testjob] "zadd" "q:jobs:testjob:active" "42" "1"          -- Job.state() from .active() Job.Worker.process
+
+
+What happens when a job processing is completed
+
+[testjob] "hset" "q:job:1" "progress" "100"
+[testjob] "zrem" "q:jobs" "1"
+[testjob] "zrem" "q:jobs:active" "1"
+[testjob] "zrem" "q:jobs:testjob:active" "1"
+[testjob] "hset" "q:job:1" "state" "complete"
+[testjob] "zadd" "q:jobs" "42" "1"
+[testjob] "zadd" "q:jobs:complete" "42" "1"
+[testjob] "zadd" "q:jobs:testjob:complete" "42" "1"
+[testjob] "hset" "q:job:1" "duration" "2"
+[listener] "incrby" "q:stats:work-time" "2"
+[testjob] "publish" "q:events" "{\"id\":\"1\",\"event\":\"complete\",\"args\":[\"complete\"]}"
